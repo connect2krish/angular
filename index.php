@@ -2,6 +2,7 @@
 <head>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <script src="js/testmodule1.js"></script>
+<link href="css/style.css" rel="stylesheet"></link>
 </head>
 <body ng-app="myModule" ng-controller="myController">
 It just works. {{10 + 30}}
@@ -11,10 +12,10 @@ It just works. {{10 + 30}}
 	Array: {{ ['test1', 'test2'][1]}}
 </div>
 <div>
-	{{message}} 
+	{{message}}
 </div>
 <div>
-	{{details.lastName}} 
+	{{details.lastName}}
 </div>
 <div>
 	{{country.name}} <br/>
@@ -25,61 +26,61 @@ It just works. {{10 + 30}}
 	{{details.firstName}}
 </div>
 <div>
-	<input type="number" step="1" min="0" max="5" ng-model="rowLimit">	
+	<input type="number" step="1" min="0" max="5" ng-model="rowLimit">
 	<table>
 		<thead>
 			<tr>
 				<th>First Name</th>
 				<th>Last Name</th>
 				<th>Salary</th>
-				<th>Date of Birth (dd-mm-yyyy)</th>				
+				<th>Date of Birth (dd-mm-yyyy)</th>
 			</tr>
-		</thead>		
+		</thead>
 		<tbody>
 			<tr ng-repeat="employee in employees | limitTo:rowLimit | orderBy: 'firstName' : true"> <!-- true = descending , false and default is ascending-->
 				<td>{{employee.firstName | uppercase}}</td>
 				<td>{{employee.lastName | lowercase}}</td>
 				<td>{{employee.Salary | number:2 | currency:"$":1}}</td>
+				<td>{{employee.dateOfBirth | date:"dd-MM-yyyy"}}</td>
 				<td>{{employee.likes}}</td>
-				<td>{{employee.dislikes}}</td>				
+				<td>{{employee.dislikes}}</td>
 				<td>
-					<input type="button" value="Like" ng-click="incrementLikes(employee)"> 
+					<input type="button" value="Like" ng-click="incrementLikes(employee)">
 				</td>
 				<td>
-					<input type="button" value="dislike" ng-click="incrementDislikes(employee)"> 
-				</td>				
-				<td>{{employee.dateOfBirth | date:"dd-MM-yyyy"}}</td>				
+					<input type="button" value="dislike" ng-click="incrementDislikes(employee)">
+				</td>
 			</tr>
-		</tbody>	
+		</tbody>
 	</table>
 </div>
 <div>
-	<input type="number" step="1" min="0" max="5" ng-model="rowLimit1">	
+	<input type="number" step="1" min="0" max="5" ng-model="rowLimit1">
 	<table>
 		<thead>
 			<tr>
 				<th>First Name</th>
 				<th>Last Name</th>
 				<th>Salary</th>
-				<th>Date of Birth (dd-mm-yyyy)</th>				
+				<th>Date of Birth (dd-mm-yyyy)</th>
 			</tr>
-		</thead>		
+		</thead>
 		<tbody>
 			<tr ng-repeat="employee in employees | limitTo:rowLimit1 | orderBy: '+firstName'"> <!-- - = descending , + and default is ascending-->
 				<td>{{employee.firstName | uppercase}}</td>
 				<td>{{employee.lastName | lowercase}}</td>
 				<td>{{employee.Salary | number:2 | currency:"$":1}}</td>
+				<td>{{employee.dateOfBirth | date:"dd-MM-yyyy"}}</td>
 				<td>{{employee.likes}}</td>
-				<td>{{employee.dislikes}}</td>				
+				<td>{{employee.dislikes}}</td>
 				<td>
-					<input type="button" value="Like" ng-click="incrementLikes(employee)"> 
+					<input type="button" value="Like" ng-click="incrementLikes(employee)">
 				</td>
 				<td>
-					<input type="button" value="dislike" ng-click="incrementDislikes(employee)"> 
-				</td>				
-				<td>{{employee.dateOfBirth | date:"dd-MM-yyyy"}}</td>				
+					<input type="button" value="dislike" ng-click="incrementDislikes(employee)">
+				</td>
 			</tr>
-		</tbody>	
+		</tbody>
 	</table>
 </div>
 <br/>Sort dropdown
@@ -96,25 +97,58 @@ It just works. {{10 + 30}}
 				<th>First Name</th>
 				<th>Last Name</th>
 				<th>Salary</th>
-				<th>Date of Birth (dd-mm-yyyy)</th>				
+				<th>Date of Birth (dd-mm-yyyy)</th>
 			</tr>
-		</thead>		
+		</thead>
 		<tbody>
 			<tr ng-repeat="employee in employees | orderBy: sortElement"> <!-- - = descending , + and default is ascending-->
 				<td>{{employee.firstName | uppercase}}</td>
 				<td>{{employee.lastName | lowercase}}</td>
 				<td>{{employee.Salary | number:2 | currency:"$":1}}</td>
+				<td>{{employee.dateOfBirth | date:"dd-MM-yyyy"}}</td>
 				<td>{{employee.likes}}</td>
-				<td>{{employee.dislikes}}</td>				
+				<td>{{employee.dislikes}}</td>
 				<td>
-					<input type="button" value="Like" ng-click="incrementLikes(employee)"> 
+					<input type="button" value="Like" ng-click="incrementLikes(employee)">
 				</td>
 				<td>
-					<input type="button" value="dislike" ng-click="incrementDislikes(employee)"> 
-				</td>				
-				<td>{{employee.dateOfBirth | date:"dd-MM-yyyy"}}</td>				
+					<input type="button" value="dislike" ng-click="incrementDislikes(employee)">
+				</td>
 			</tr>
-		</tbody>	
+		</tbody>
+	</table>
+</div>
+<br/><br/>Sort Clickable
+<div>
+	<table>
+		<thead>
+			<tr>
+				<th ng-click="sortData(firstName)">
+					First Name
+					<div ng-class="getSortClass(firstName)">
+					</div>
+				</th>
+				<th>Last Name</th>
+				<th>Salary</th>
+				<th>Date of Birth (dd-mm-yyyy)</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="employee in employees | orderBy:sortElement:reverseSort"> <!-- - = descending , + and default is ascending-->
+				<td>{{employee.firstName | uppercase}}</td>
+				<td>{{employee.lastName | lowercase}}</td>
+				<td>{{employee.Salary | number:2 | currency:"$":1}}</td>
+				<td>{{employee.dateOfBirth | date:"dd-MM-yyyy"}}</td>
+				<td>{{employee.likes}}</td>
+				<td>{{employee.dislikes}}</td>
+				<td>
+					<input type="button" value="Like" ng-click="incrementLikes(employee)">
+				</td>
+				<td>
+					<input type="button" value="dislike" ng-click="incrementDislikes(employee)">
+				</td>
+			</tr>
+		</tbody>
 	</table>
 </div>
 </body>
