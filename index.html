@@ -1,11 +1,11 @@
 <html>
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="js/angular.js"></script>
 <script src="js/testmodule1.js"></script>
 <link href="css/style.css" rel="stylesheet"></link>
 </head>
 <body ng-app="myModule" ng-controller="myController">
-It just works. {{10 + 30}}
+Angular Experiments: It just works. {{10 + 30}}
 <br/>
 <div>
 	Name property: {{ {name:'test', age:'100'}.name}} <br/>
@@ -25,6 +25,51 @@ It just works. {{10 + 30}}
 	<input type="text" ng-model="details.firstName"> <br/>
 	{{details.firstName}}
 </div>
+
+<div style="margin-top:30px;margin-bottom:30px;" ng-controller="myController as ctrl" layout="column" ng-cloak>
+	<h2>SEARCH </h2>
+  <md-content layout-padding layout="column">
+    <form ng-submit="$event.preventDefault()">
+      <md-autocomplete
+          ng-disabled="ctrl.isDisabled"
+          md-no-cache="ctrl.noCache"
+          md-selected-item="ctrl.selectedItem"
+          md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+          md-search-text="ctrl.searchText"
+          md-selected-item-change="ctrl.selectedItemChange(item)"
+          md-items="item in ctrl.querySearch(ctrl.searchText)"
+          md-item-text="item.name"
+          md-min-length="0"
+          placeholder="Pick an Angular repository"
+          md-menu-class="autocomplete-custom-template">
+        <md-item-template>
+          <span class="item-title">
+            <md-icon md-svg-icon="img/icons/octicon-repo.svg"></md-icon>
+            <span> {{item.name}} </span>
+          </span>
+          <span class="item-metadata">
+            <span class="item-metastat">
+              <strong>{{item.watchers}}</strong> watchers
+            </span>
+            <span class="item-metastat">
+              <strong>{{item.forks}}</strong> forks
+            </span>
+          </span>
+        </md-item-template>
+      </md-autocomplete>
+    </form>
+  </md-content>		
+</div>
+
+
+
+<div>
+	<select ng-options="field.name for field in fields | filter : !selectedItem.dsplay"
+	        ng-model="selectedItem"
+	        ng-change="updateSelectField(selectedItem)" selected="defaultField">
+  </select>
+</div>
+
 <div>
 	<input type="number" step="1" min="0" max="5" ng-model="rowLimit">
 	<table>
@@ -54,6 +99,7 @@ It just works. {{10 + 30}}
 		</tbody>
 	</table>
 </div>
+
 <div>
 	<input type="number" step="1" min="0" max="5" ng-model="rowLimit1">
 	<table>
